@@ -4,9 +4,10 @@ import PopUpModal from "./PopUpModal";
 import QuizSection from "./QuizSection";
 
 const Quiz = () => {
+  const questionsNumber = 10;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOptions, setSelectedOptions] = useState(
-    new Array(10).fill(null)
+    new Array(questionsNumber).fill(null)
   );
   const [randomQuestionIndices, setRandomQuestionIndices] = useState([]);
   const [answersSubmitted, setAnswersSubmitted] = useState(false);
@@ -16,13 +17,13 @@ const Quiz = () => {
 
   const totalQuestions = frontend.questions.length;
   const currentQuestion =
-    randomQuestionIndices.length === 10
+    randomQuestionIndices.length === questionsNumber
       ? frontend.questions[randomQuestionIndices[currentQuestionIndex]]
       : null;
 
   const generateRandomQuestion = () => {
     const randomIndices = new Set();
-    while (randomIndices.size < 10) {
+    while (randomIndices.size < questionsNumber) {
       const randomIndex = Math.floor(Math.random() * totalQuestions);
       randomIndices.add(randomIndex);
     }
@@ -84,14 +85,14 @@ const Quiz = () => {
     (selectedOptionIndex) => selectedOptionIndex !== null
   );
 
-  if (randomQuestionIndices.length !== 10) {
+  if (randomQuestionIndices.length !== questionsNumber) {
     return <div>Loading...</div>;
   }
 
   const handleRetakeQuiz = () => {
     generateRandomQuestion();
     setCurrentQuestionIndex(0);
-    setSelectedOptions(new Array(10).fill(null));
+    setSelectedOptions(new Array(questionsNumber).fill(null));
     setAnswersSubmitted(false);
     setCorrectAnswers(0);
     setShowPopup(false);
